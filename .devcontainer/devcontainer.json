@@ -1,0 +1,61 @@
+{
+  "name": "PetCare AI Development",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "ports": [
+    {
+      "label": "Next.js Dev Server",
+      "containerPort": 3000,
+      "protocol": "tcp"
+    }
+  ],
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js",
+      "onAutoForward": "notify",
+      "requireLocalPort": false
+    }
+  },
+  "postCreateCommand": "npm install && npm run type-check",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "unifiedjs.vscode-mdx",
+        "bradlc.vscode-tailwindcss",
+        "prisma.prisma",
+        "eamodio.gitlens",
+        "GitHub.copilot",
+        "ms-vscode-remote.remote-containers"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.tsserver.experimental.enableProjectDiagnostics": true
+      }
+    }
+  },
+  "remoteUser": "node",
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/node/.local/bin"
+  }
+}
