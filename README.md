@@ -1,133 +1,144 @@
 # PetCare AI - Vet Bill Analyzer
 
+[![GitHub](https://img.shields.io/badge/github-mbeale%2Fvet--bill--analyzer-blue)](https://github.com/mbeale/vet-bill-analyzer)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)]()
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)]()
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178c6)]()
+
 A transparency platform that empowers pet owners to validate veterinary costs using crowdsourced regional data.
 
-## Quick Start with GitHub Codespaces
+## 🚀 Quick Start
 
-This project is configured to run seamlessly in GitHub Codespaces.
+### GitHub Codespaces (Recommended - No Setup Needed)
 
-### Option 1: Create a New Codespace
-
-1. Click on the "Code" button in the GitHub repository
-2. Select the "Codespaces" tab
-3. Click "Create codespace on main" (or your desired branch)
-4. Wait for the container to initialize (usually 2-3 minutes)
-
-The environment will automatically:
-- Install Node.js dependencies
-- Run TypeScript type checking
-- Set up VS Code extensions
-
-### Option 2: Open in VS Code Locally with Dev Containers
-
-If running locally with VS Code:
-
-1. Install the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-2. Open this folder in VS Code
-3. Click "Reopen in Container" when prompted
-4. VS Code will build and start the development container
-
-## Environment Setup
-
-### 1. Configure Environment Variables
-
-Create a `.env.local` file in the root directory (based on `.env.example`):
-
-```bash
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-
-# Google Document AI Configuration
-GOOGLE_CLOUD_PROJECT_ID=your_project_id
-GOOGLE_CLOUD_PROCESSOR_ID=your_processor_id
-GOOGLE_CLOUD_LOCATION=us
-GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
-
-# Google Generative AI (Gemini)
-GOOGLE_API_KEY=your_gemini_api_key
-
-# Application Configuration
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
-
-### 2. Initialize Supabase Database
-
-Once you have a Supabase project:
-
-1. Connect to your Supabase database
-2. Run the schema from `supabase/schema.sql`:
+1. Click **Code** → **Codespaces** → **Create codespace on main**
+2. Wait 2-3 minutes for the container to initialize
+3. In the terminal, run:
    ```bash
-   psql -h your-db-host -U postgres -d postgres -f supabase/schema.sql
+   npm run setup
    ```
+4. Edit `.env.local` with your credentials
+5. Run `npm run dev`
 
-## Development Commands
+### Local Development
 
 ```bash
+# Clone repository
+git clone https://github.com/mbeale/vet-bill-analyzer.git
+cd vet-bill-analyzer
+
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.example .env.local
+# Edit .env.local with your credentials
+
 # Start development server
 npm run dev
+```
+
+Visit `http://localhost:3000`
+
+## 📚 Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [GETTING_STARTED.md](./GETTING_STARTED.md) | **Start here**: Step-by-step setup guide with detailed credentials setup |
+| [TESTING.md](./TESTING.md) | Testing procedures, sample data, and verification steps |
+| [DEVELOPMENT.md](./DEVELOPMENT.md) | Development workflow, coding standards, and best practices |
+| [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System design, technical stack, and data flow |
+| [docs/PRD.md](./docs/PRD.md) | Product requirements, user personas, and feature specifications |
+| [.devcontainer/SETUP.md](./.devcontainer/SETUP.md) | Codespaces-specific setup instructions |
+
+## 🎯 What to Do Next
+
+**First time?** Start with [GETTING_STARTED.md](./GETTING_STARTED.md)
+
+**Ready to code?** Go to [DEVELOPMENT.md](./DEVELOPMENT.md)
+
+**Need to verify setup?** Check [TESTING.md](./TESTING.md)
+
+**Want to understand the system?** Read [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+
+## 🛠 Development Commands
+
+```bash
+# Start development server with hot reload
+npm run dev
+
+# Type check without compiling
+npm run type-check
 
 # Build for production
 npm run build
 
-# Start production server
+# Start production build locally
 npm start
 
-# Type check
-npm run type-check
-
-# Lint code
+# Run linter
 npm run lint
+
+# Full setup (dependencies + type check)
+npm run setup
 ```
 
-The dev server will run on `http://localhost:3000` and is accessible from your browser in Codespaces.
-
-## Project Structure
+## 🏗 Project Structure
 
 ```
 vet-bill-analyzer/
-├── .devcontainer/          # Dev container configuration
-│   ├── devcontainer.json   # Codespaces setup
-│   └── Dockerfile          # Container customization
-├── app/                    # Next.js app directory
+├── .devcontainer/          # Codespaces configuration
+│   ├── devcontainer.json   # Container setup
+│   └── SETUP.md           # Codespaces guide
+├── app/                    # Next.js App Router
 │   ├── components/         # React components
+│   │   ├── FileUpload.tsx
+│   │   └── VerdictDisplay.tsx
 │   ├── layout.tsx         # Root layout
 │   ├── page.tsx           # Home page
-│   └── globals.css        # Global styles
-├── lib/                   # Utility functions
-│   ├── supabase.ts        # Supabase client
+│   └── globals.css        # Styles
+├── lib/                   # Utilities & integrations
 │   ├── auth.ts            # Authentication
+│   ├── supabase.ts        # Database client
 │   ├── storage.ts         # File storage
-│   ├── documentai.ts      # OCR integration
-│   ├── gemini.ts          # AI normalization
+│   ├── documentai.ts      # OCR
+│   ├── gemini.ts          # AI
 │   └── types.ts           # TypeScript types
-├── supabase/              # Database configuration
-│   └── schema.sql         # Database schema
+├── supabase/              # Database
+│   └── schema.sql         # Schema
+├── scripts/               # Utilities
+│   └── setup.sh          # Setup script
 ├── docs/                  # Documentation
-│   ├── ARCHITECTURE.md    # Technical architecture
-│   └── PRD.md            # Product requirements
+│   ├── ARCHITECTURE.md    # System design
+│   └── PRD.md            # Requirements
+├── GETTING_STARTED.md     # Setup guide
+├── TESTING.md            # Testing guide
+├── DEVELOPMENT.md        # Dev guide
 └── package.json          # Dependencies
 ```
 
-## Technology Stack
+## 🔧 Technology Stack
 
-- **Frontend**: Next.js 15 (App Router) with TypeScript
-- **Database**: Supabase (PostgreSQL + PostGIS)
-- **Authentication**: Supabase Auth
-- **File Storage**: Supabase Storage
-- **OCR**: Google Document AI
-- **AI/ML**: Gemini 2.0 Flash
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel (ready for production)
+| Component | Technology |
+|-----------|-----------|
+| **Frontend** | Next.js 15 (App Router) with TypeScript |
+| **Database** | Supabase (PostgreSQL + PostGIS) |
+| **Authentication** | Supabase Auth |
+| **File Storage** | Supabase Storage (S3-compatible) |
+| **OCR** | Google Document AI |
+| **AI/ML** | Gemini 2.0 Flash |
+| **Styling** | Tailwind CSS |
+| **Deployment** | Vercel |
+| **Dev Environment** | GitHub Codespaces / Dev Containers |
 
-## Features
+## ✨ Features
 
 ### Part A: AI Extraction Engine
 - Multi-modal upload (JPG, PNG, PDF)
 - OCR text extraction with Google Document AI
-- Line item parsing and normalization
-- Procedure mapping to standardized categories
+- Procedure normalization with Gemini 2.0 Flash
+- Standardized procedure categorization
 
 ### Part B: Regional Pricing Engine
 - Geospatial lookups using PostGIS
@@ -137,79 +148,182 @@ vet-bill-analyzer/
 
 ### Part C: Transparency UI
 - Color-coded verdicts (Green/Yellow/Red)
-- Line-item breakdown with pricing comparisons
-- Beeswarm plots for regional price distribution
-- Actionable negotiation scripts
+- Line-item breakdown with regional comparisons
+- Price distribution visualization
+- Actionable negotiation recommendations
 
-## Security & Privacy
+## 🔒 Security & Privacy
 
-- **Row Level Security (RLS)**: Users can only access their own data
-- **PII Scrubbing**: Owner names and addresses removed before benchmarking
+- **Row Level Security (RLS)**: Users see only their own data
+- **PII Scrubbing**: Names and addresses removed before benchmarking
 - **Encrypted Storage**: Sensitive data encrypted at rest
-- **Audit Logging**: All data changes tracked for compliance
+- **Audit Logging**: All changes tracked for compliance
+- **No Secrets in Code**: All credentials in `.env.local` (git-ignored)
 
-## Debugging in Codespaces
+## 📋 Setup Checklist
 
-### Port Forwarding
+Before starting development:
 
-The dev server port (3000) is automatically forwarded and accessible in Codespaces. You'll see a notification when the server starts.
+- [ ] Read [GETTING_STARTED.md](./GETTING_STARTED.md)
+- [ ] Set up Supabase account and project
+- [ ] Create Google Cloud project and enable APIs
+- [ ] Get Gemini API key
+- [ ] Create `.env.local` with all credentials
+- [ ] Run `npm install`
+- [ ] Run `npm run type-check` (should pass)
+- [ ] Run `npm run dev` and verify `http://localhost:3000` loads
+- [ ] Run through [TESTING.md](./TESTING.md) verification tests
 
-### VS Code Extensions
+## 🐛 Troubleshooting
 
-The following extensions are automatically installed:
-
-- TypeScript
-- ESLint
-- Prettier
-- Tailwind CSS
-- GitLens
-- GitHub Copilot
-
-### Useful Keyboard Shortcuts
-
-- `Ctrl+` ` ` - Open integrated terminal
-- `Ctrl+P` - Quick file open
-- `Ctrl+Shift+D` - Debug view
-- `F1` - Command palette
-
-## Common Issues
-
-### Dependencies not installing
-
-If npm install fails in the devcontainer:
+### Development Server Won't Start
 
 ```bash
-# Clear npm cache and retry
+# Clear cache and reinstall
 npm cache clean --force
+rm -rf node_modules package-lock.json
 npm install
-```
-
-### Port already in use
-
-If port 3000 is already in use:
-
-```bash
-npm run dev -- -p 3001
-```
-
-### Database connection errors
-
-Verify your Supabase credentials in `.env.local`:
-
-```bash
-# Test the connection
 npm run type-check
+npm run dev
 ```
 
-## Documentation
+### Database Connection Errors
 
-- [Architecture Documentation](./docs/ARCHITECTURE.md) - System design and technical decisions
-- [Product Requirements](./docs/PRD.md) - Feature specifications and user personas
+1. Verify `.env.local` has correct Supabase URL and keys
+2. Check Supabase project is running
+3. Go to Supabase Dashboard → Settings → API
+4. Copy fresh credentials and update `.env.local`
 
-## Support
+### TypeScript Errors
 
-For issues or questions, refer to the documentation or create an issue in the repository.
+```bash
+npm run type-check
 
-## License
+# Fix issues and try again
+```
 
-Proprietary - PetCare AI
+### Module Not Found
+
+```bash
+# Ensure dependencies are installed
+npm install
+
+# Check file names (case-sensitive on Linux/Mac)
+```
+
+See [GETTING_STARTED.md](./GETTING_STARTED.md#common-setup-issues) for more troubleshooting.
+
+## 🚀 Development Workflow
+
+1. **Create branch**: `git checkout -b feature/your-feature`
+2. **Start dev server**: `npm run dev`
+3. **Make changes**: Files auto-reload in browser
+4. **Type check**: `npm run type-check` in another terminal
+5. **Test**: Follow [TESTING.md](./TESTING.md)
+6. **Commit**: `git commit -m "Your message"`
+7. **Push**: `git push origin feature/your-feature`
+8. **Create PR**: Link to GitHub repository
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed workflow.
+
+## 🧪 Testing
+
+Before submitting a PR:
+
+```bash
+# Run all checks
+npm run type-check
+npm run build
+npm run dev
+
+# Test manually in browser
+# See TESTING.md for comprehensive testing guide
+```
+
+## 📖 User Personas
+
+- **The Anxious Owner**: Just paid a big vet bill; needs validation
+- **The Budgeter**: Shopping around for procedures like dentals
+- **The Contributor**: Wants to help other pet owners by sharing data
+
+## 🎯 Success Metrics
+
+- **Extraction Accuracy**: >90% correct procedure mapping
+- **Database Growth**: Unique zip codes with 5+ data points
+- **User Conversion**: % of users who scan a second bill
+
+## 🔄 Development Phases
+
+- **Phase 1 (Seed)**: Manual data import from 10 major US cities
+- **Phase 2 (Alpha)**: First 500 users with manual verification
+- **Phase 3 (Beta)**: Automated aggregation and Stripe integration
+
+## 📝 Coding Standards
+
+- **Language**: TypeScript with strict mode
+- **Formatting**: Prettier (auto on save)
+- **Linting**: ESLint
+- **Components**: Functional React with hooks
+- **Naming**: camelCase (vars), PascalCase (components), UPPER_SNAKE_CASE (constants)
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md#coding-standards) for details.
+
+## 🔐 Environment Variables
+
+Required in `.env.local`:
+
+```
+NEXT_PUBLIC_SUPABASE_URL         # Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY    # Supabase public key
+SUPABASE_SERVICE_ROLE_KEY        # Supabase service role (secret)
+GOOGLE_CLOUD_PROJECT_ID          # Google Cloud project ID
+GOOGLE_CLOUD_PROCESSOR_ID        # Document AI processor ID
+GOOGLE_CLOUD_LOCATION            # Google Cloud location (usually 'us')
+GOOGLE_APPLICATION_CREDENTIALS   # Path to service account JSON
+GOOGLE_API_KEY                   # Gemini API key
+NEXT_PUBLIC_APP_URL              # Application base URL
+```
+
+**Never commit `.env.local`** - It's already in `.gitignore`
+
+## 📚 Learning Resources
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Documentation](https://supabase.com/docs)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [GitHub Codespaces Guide](https://docs.github.com/en/codespaces)
+
+## 🤝 Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run `npm run type-check && npm run build`
+4. Write tests in [TESTING.md](./TESTING.md) format
+5. Create a pull request
+6. Link to any related issues
+
+## 📞 Support
+
+- **Setup Issues?** See [GETTING_STARTED.md](./GETTING_STARTED.md)
+- **Testing Questions?** See [TESTING.md](./TESTING.md)
+- **Development Help?** See [DEVELOPMENT.md](./DEVELOPMENT.md)
+- **Architecture Questions?** See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+
+## 📄 License
+
+Proprietary - PetCare AI MVP
+
+## 🎉 Getting Started
+
+Ready to begin? Follow these steps:
+
+1. **First Time?** → Read [GETTING_STARTED.md](./GETTING_STARTED.md)
+2. **Set Up Environment** → Follow [GETTING_STARTED.md](./GETTING_STARTED.md#detailed-setup)
+3. **Verify Setup** → Run tests from [TESTING.md](./TESTING.md)
+4. **Start Developing** → Read [DEVELOPMENT.md](./DEVELOPMENT.md)
+5. **Understand System** → Read [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)
+
+---
+
+**Let's build something amazing for pet owners! 🐾**
